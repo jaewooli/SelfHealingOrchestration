@@ -1,37 +1,42 @@
 variable "aws_region" {
-  description = "AWS region"
-  type        = string
-  default     = "ap-northeast-2"
+  type    = string
+  default = "ap-northeast-2"
 }
 
 variable "project_name" {
-  description = "Project name"
-  type        = string
-  default     = "antifragile"
+  type    = string
+  default = "antifragile"
 }
 
 variable "environment" {
-  description = "Environment name"
-  type        = string
-  default     = "mvp"
+  type    = string
+  default = "mvp"
 }
 
-variable "vpc_cidr" {
-  description = "CIDR block for VPC"
-  type        = string
-  default     = "10.0.0.0/16"
+variable "owner" {
+  type    = string
+  default = "team-antifragile"
 }
 
-variable "public_subnet_a_cidr" {
-  description = "CIDR block for public subnet in AZ-a"
-  type        = string
-  default     = "10.0.1.0/24"
+variable "operator_cidr" {
+  type    = string
+  default = "0.0.0.0/0"
 }
 
-variable "public_subnet_c_cidr" {
-  description = "CIDR block for public subnet in AZ-c"
-  type        = string
-  default     = "10.0.2.0/24"
+variable "slack_webhook_url" {
+  type      = string
+  sensitive = true
+}
+
+variable "bedrock_model_id" {
+  type    = string
+  // 임시 모델
+  default = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+}
+
+variable "container_image" {
+  type    = string
+  default = "public.ecr.aws/docker/library/nginx:latest"
 }
 
 variable "instance_type" {
