@@ -1,0 +1,1 @@
+curl "http://127.0.0.1:8080/search?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
