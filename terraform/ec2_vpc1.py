@@ -12,7 +12,8 @@ def home():
             "/download?file=",
             "/fetch?url=",
             "/admin",
-            "/echo"
+            "/echo",
+            "/call"
         ]
     })
 
@@ -55,7 +56,7 @@ def echo():
         "body": body
     })
 
-@app.get("/call-allowed")
+@app.get("/call")
 def call_allowed():
     target = request.args.get("target", "").strip()
 
