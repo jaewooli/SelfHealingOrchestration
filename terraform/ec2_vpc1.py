@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -53,6 +54,34 @@ def echo():
         "endpoint": "echo",
         "body": body
     })
+
+@app.get("/call-allowed")
+def call_allowed():
+    target = request.args.get("target", "").strip()
+
+    if not target:
+        return jsonify({
+            "error": "missing target parameter"
+        }), 400
+
+    url = target
+
+    try:
+        resp = requests.get(url, timeout=3)
+        return jsonify({
+            "endpoint": "call-allowed",
+            "target": target,
+            "url": url,
+            "status_code": resp.status_code,
+            "body_preview": resp.text[:200]
+        })
+    except requests.RequestException as e:
+        return jsonify({
+            "endpoint": "call-allowed",
+            "target": target,
+            "url": url,
+            "error": str(e)
+        }), 502
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
