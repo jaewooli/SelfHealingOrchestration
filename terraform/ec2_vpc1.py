@@ -70,7 +70,7 @@ def call_allowed():
     try:
         resp = requests.get(url, timeout=3)
         return jsonify({
-            "endpoint": "call-allowed",
+            "endpoint": "call",
             "target": target,
             "url": url,
             "status_code": resp.status_code,
@@ -78,7 +78,7 @@ def call_allowed():
         })
     except requests.RequestException as e:
         return jsonify({
-            "endpoint": "call-allowed",
+            "endpoint": "call",
             "target": target,
             "url": url,
             "error": str(e)
