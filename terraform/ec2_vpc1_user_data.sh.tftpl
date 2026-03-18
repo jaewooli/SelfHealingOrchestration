@@ -1,0 +1,32 @@
+.#!/bin/bash
+set -eux
+
+dnf update -y || yum update -y
+dnf install -y python3 || yum install -y python3
+
+mkdir -p /opt/waf-test
+cat > /opt/waf-test/app.py <<'PYEOF'
+${app_py}
+PYEOF
+
+python3 -m pip install --upgrade pip
+python3 -m pip install flask
+
+cat > /etc/systemd/system/waf-test.service <<'SVCEOF'
+[Unit]
+Description=WAF Test Flask App
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/waf-test
+ExecStart=/usr/bin/python3 /opt/waf-test/app.py
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+SVCEOF
+
+systemctl daemon-reload
+systemctl enable waf-test
+systemctl start waf-test

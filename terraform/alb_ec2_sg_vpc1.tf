@@ -57,13 +57,9 @@ resource "aws_instance" "app_a" {
   iam_instance_profile   = aws_iam_instance_profile.ssm_ec2.name
   key_name               = var.key_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              dnf install -y httpd
-              echo "Hello from app-a" > /var/www/html/index.html
-              systemctl enable httpd
-              systemctl start httpd
-              EOF
+  user_data = templatefile("${path.module}/ec2_vpc1_user_data.sh.tftpl", {
+    app_py = file("${path.module}/ec2_vpc1.py")
+  })
 
   tags = {
     Name = "${local.name_prefix}-app-a"
@@ -78,13 +74,9 @@ resource "aws_instance" "app_c" {
   iam_instance_profile   = aws_iam_instance_profile.ssm_ec2.name
   key_name               = var.key_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              dnf install -y httpd
-              echo "Hello from app-c" > /var/www/html/index.html
-              systemctl enable httpd
-              systemctl start httpd
-              EOF
+  user_data = templatefile("${path.module}/ec2_vpc1_user_data.sh.tftpl", {
+    app_py = file("${path.module}/ec2_vpc1.py")
+  })
 
   tags = {
     Name = "${local.name_prefix}-app-c"
