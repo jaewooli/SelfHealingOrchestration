@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.get("/")
 def home():
     return jsonify({
-        "message": "WAF test server is running",
+        "message": "test server is running",
         "endpoints": [
             "/search?q=",
             "/download?file=",
