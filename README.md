@@ -2,7 +2,7 @@
 
 [![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=flat-square&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
 [![Terraform](https://img.shields.io/badge/terraform-%235C4EE5.svg?style=flat-square&logo=terraform&logoColor=white)](https://www.terraform.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 An event-driven, production-grade automated security remediation and self-healing infrastructure managed via Terraform. This project orchestrates AWS native security services, asynchronous Lambda functions, and LLM-powered reasoning to detect, analyze, and remediate cloud security threats with human-in-the-loop validation.
 
@@ -48,12 +48,13 @@ The system leverages an event-driven design to ensure robust, scalable, and resi
 ## 📁 Repository Structure
 
 ```text
-├── terraform/                   # Infrastructure as Code
-│   ├── modules/                 # Reusable modules (WAF, GuardDuty, StepFunctions)
+├── terraform/                   
+│   ├── eventbridge.tf           # EventBridge
 │   ├── main.tf                  # Root Terraform configuration
-│   ├── variables.tf             # Global variables
-│   └── outputs.tf               # Stack outputs
-├── src/                         # Lambda Functions Source Code
+│   ├── step_func.tf             # Step Function configuration
+│   ├── terrafrom.tfvars         # Variable for Terraform setup
+│   └── variables.tf             # Global Variables
+├── src/                         
 │   ├── lambda/                  # Source for Lambda
 │   └── sendrecv/                # Source for send and recv
 ├── LICENSE
