@@ -37,33 +37,23 @@ The pipeline automates the entire lifecycle of a threat: `Detection ➔ Collecti
  └──────────────────────────────┘
 ```
 
-1. Ingestion & Filtering: AWS native security tools route standard ASFF (AWS Security Finding Format) logs into AWS Security Hub. An Amazon EventBridge rule triggers an ingestion Lambda function.
-
-2. De-duplication & Normalization: Lambda filters duplicate findings and isolates EC2/S3 specific contexts (Prefixes: Backdoor:EC2, Trojan:EC2, CryptoCurrency:EC2, SensitiveData:S3). The logs are archived into Amazon S3 partitions (raw-findings/ and normalized-event/).
-
-3. Orchestration Workflow: High/Critical severity events initiate an AWS Step Functions state machine (uniquely identified via UUID tokens).
-
-4. LLM Reasoning (Analyze & Plan): Amazon Bedrock (Claude 3.5 Sonnet) generates a 1st-stage context breakdown (Summary, Risk Assessment, Blast Radius Impact Score) and a 2nd-stage execution blueprint (Up to 5 actionable steps structured in strict JSON format).
-
-5. Human-in-the-Loop Validation: Step Functions halts execution via the waitForTaskToken pattern, dispatching an interactive approval card to Slack. Administrators can multi-select playbooks or reject actions. Security is guaranteed via a Lambda Function URL Secured with Slack SDK Signing Secret Verification.
-
-6. Self-Healing Enforcement: Upon administrator consent, AWS Systems Manager (SSM) executes underlying host and network operations, writing final execution states (SUCCESS, PARTIAL SUCCESS, FAIL) back to S3.
+1. **Ingestion & Filtering**: AWS native security tools route standard ASFF (AWS Security Finding Format) logs into AWS Security Hub. An Amazon EventBridge rule triggers an ingestion Lambda function.
+2. **De-duplication & Normalization**: Lambda filters duplicate findings and isolates EC2/S3 specific contexts (Prefixes: Backdoor:EC2, Trojan:EC2, CryptoCurrency:EC2, SensitiveData:S3). The logs are archived into Amazon S3 partitions (raw-findings/ and normalized-event/).
+3. **Orchestration Workflow**: High/Critical severity events initiate an AWS Step Functions state machine (uniquely identified via UUID tokens).
+4. **LLM Reasoning (Analyze & Plan)**: Amazon Bedrock (Claude 3.5 Sonnet) generates a 1st-stage context breakdown (Summary, Risk Assessment, Blast Radius Impact Score) and a 2nd-stage execution blueprint (Up to 5 actionable steps structured in strict JSON format).
+5. **Human-in-the-Loop Validation**: Step Functions halts execution via the waitForTaskToken pattern, dispatching an interactive approval card to Slack. Administrators can multi-select playbooks or reject actions. Security is guaranteed via a Lambda Function URL Secured with Slack SDK Signing Secret Verification.
+6. **Self-Healing Enforcement**: Upon administrator consent, AWS Systems Manager (SSM) executes underlying host and network operations, writing final execution states (SUCCESS, PARTIAL SUCCESS, FAIL) back to S3.
 
 ---
 
 ## ✨ Key Features
 
-- Behavior-Centric Defense: Bypasses static rule constraints by focusing on universal post-exploitation anomalies (e.g., rogue outbound C2 traffic).
-
-- Dual-Stage Bedrock Pipeline:
-
--    - Analyze Mode: Quantifies impact metrics and cross-references finding context against internal organizational Security Rule Books.
-
--    - Plan Mode: Generates dynamically structured JSON step-arrays mapping directly to backend automation scripts.
-
-- Fail-Safe Orchestration: Implements an automated timeout-escalation loop. If an operator fails to approve a Slack notification within 5 minutes, recurring reminders trigger. Step Functions natively leverages Catch blocks to capture component failures, converting execution errors into gracefully packaged Partial Success states for forensic review.
-
-- Comprehensive State Diffing: Tracks configuration baselines before and after remediation to visually measure infrastructure mutations.
+- **Behavior-Centric Defense**: Bypasses static rule constraints by focusing on universal post-exploitation anomalies (e.g., rogue outbound C2 traffic).
+- **Dual-Stage Bedrock Pipeline**:
+-    - **Analyze Mode**: Quantifies impact metrics and cross-references finding context against internal organizational Security Rule Books.
+-    - **Plan Mode**: Generates dynamically structured JSON step-arrays mapping directly to backend automation scripts.
+- **Fail-Safe Orchestration**: Implements an automated timeout-escalation loop. If an operator fails to approve a Slack notification within 5 minutes, recurring reminders trigger. Step Functions natively leverages Catch blocks to capture component failures, converting execution errors into gracefully packaged Partial Success states for forensic review.
+- **Comprehensive State Diffing**: Tracks configuration baselines before and after remediation to visually measure infrastructure mutations.
 
 ---
 
