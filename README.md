@@ -69,13 +69,13 @@ The pipeline automates the entire lifecycle of a threat: `Detection ➔ Collecti
 
 ## 🛠️ Automated Remediation Playbooks
 
-Executed conditionally through AWS Systems Manager (SSM) using isolated temporary IAM profiles[cite: 1]:
+Executed conditionally through AWS Systems Manager (SSM) using isolated temporary IAM profiles:
 
 | Playbook Action | Technical Remediation Mechanism |
 | :--- | :--- |
-| **`ISOLATE_INSTANCE`** | Detaches current network descriptors, creates a backup AMI, and provisions instance within an isolated forensic VPC[cite: 1]. |
-| **`SNAPSHOT_INSTANCE`** | Triggers host-level volatile memory acquisition utilities (`LiME` for Linux / `WinPmem` for Windows) and ships dumps to S3[cite: 1]. |
-| **`REVOKE_IAM_ROLE`** | Instantly detaches compromised IAM Instance Profiles and invalidates temporary STS tokens[cite: 1]. |
+| **`ISOLATE_INSTANCE`** | Detaches current network descriptors, creates a backup AMI, and provisions instance within an isolated forensic VPC. |
+| **`SNAPSHOT_INSTANCE`** | Triggers host-level volatile memory acquisition utilities (`LiME` for Linux / `WinPmem` for Windows) and ships dumps to S3. |
+| **`REVOKE_IAM_ROLE`** | Instantly detaches compromised IAM Instance Profiles and invalidates temporary STS tokens. |
 | **`BLOCK_IP`** | Hard-redefines EC2 Security Groups, ripping out active inbound/outbound rules (e.g., dropping `0.0.0.0/0` vectors). |
 
 ---
@@ -93,17 +93,17 @@ Logs inside S3 undergo real-time transformation through an automated ETL flow: *
 
 ## 🚀 Simulation & Empirical Validation
 
-System capability was rigorously evaluated utilizing the `amazon-guardduty-tester`[cite: 1]. Over a continuous **10-minute automated window**, the architecture simulated **32 distinct attack scenarios**, processing a total of **702 incoming security events**[cite: 1].
+System capability was rigorously evaluated utilizing the `amazon-guardduty-tester`. Over a continuous **10-minute automated window**, the architecture simulated **32 distinct attack scenarios**, processing a total of **702 incoming security events**.
 
 ### Performance Metrics Comparison
 
 | Benchmark Metric | Legacy Manual Operations | Antifragile Orchestration | Improvement Rate |
 | :--- | :--- | :--- | :--- |
-| **Actionable Findings Handled** | 35 events[cite: 1] | **15 events**[cite: 1] | **~57% Reduction** (Fatigue Mitigation)[cite: 1] |
-| **Mean Time to Remediate (MTTR)**| 15+ Minutes / event[cite: 1] | **< 10 Minutes**[cite: 1] | **> 150% Velocity Increase**[cite: 1] |
-| **Pipeline Reliability Rate** | Host Dependent | **100% Success**[cite: 1] | 57 HIGH-Risk Events safely contained[cite: 1] |
+| **Actionable Findings Handled** | 35 events | **15 events** | **~57% Reduction** (Fatigue Mitigation) |
+| **Mean Time to Remediate (MTTR)**| 15+ Minutes / event | **< 10 Minutes** | **> 150% Velocity Increase** |
+| **Pipeline Reliability Rate** | Host Dependent | **100% Success** | 57 HIGH-Risk Events safely contained |
 
-*AI-assisted context parsing reduced operator cognitive load by filtering low-level ambient telemetry down to 15 actionable, high-signal alerts[cite: 1].*
+*AI-assisted context parsing reduced operator cognitive load by filtering low-level ambient telemetry down to 15 actionable, high-signal alerts.*
 
 ---
 
